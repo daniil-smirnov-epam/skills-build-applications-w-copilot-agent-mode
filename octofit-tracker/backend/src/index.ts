@@ -9,7 +9,8 @@ import { usersRouter } from './routes/users.js';
 import { workoutsRouter } from './routes/workouts.js';
 
 const app = express();
-const port = 8000;
+const port = Number(process.env.PORT || '8000');
+const host = '0.0.0.0';
 
 app.use(express.json());
 
@@ -47,6 +48,6 @@ connectToDatabase().catch((error) => {
   console.error('Database connection setup failed:', error);
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(port, host, () => {
+  console.log(`Server listening on http://${host}:${port}`);
 });
