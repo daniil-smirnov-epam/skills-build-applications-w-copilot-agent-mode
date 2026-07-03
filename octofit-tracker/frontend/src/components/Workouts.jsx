@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react'
-import { getApiUrl, normalizeCollectionResponse } from './api.js'
+import { normalizeCollectionResponse } from './api.js'
+
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const workoutsApiUrl = codespaceName
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`
+  : 'http://localhost:8000/api/workouts/'
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([])
@@ -14,7 +19,7 @@ function Workouts() {
       setError('')
 
       try {
-        const response = await fetch(getApiUrl('workouts'), { signal: controller.signal })
+        const response = await fetch(workoutsApiUrl, { signal: controller.signal })
         if (!response.ok) {
           throw new Error(`Failed to load workouts (${response.status})`)
         }
